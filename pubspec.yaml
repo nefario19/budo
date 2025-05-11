@@ -16,6 +16,7 @@ dependencies:
   json_annotation: ^4.9.0
   freezed_annotation: ^3.0.0
   supabase_flutter: ^2.9.0
+  loglytics: ^0.15.0
 
 dev_dependencies:
   flutter_test:
