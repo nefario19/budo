@@ -1,4 +1,7 @@
+import 'package:budo_app/features/core/splash/views/splash_view.dart';
 import 'package:flutter/material.dart';
+
+import 'features/authentication/views/sign_in_view.dart';
 
 Future<void> main() async {
   runApp(MyApp());
@@ -12,7 +15,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => SplashView(),
+        '/signIn': (context) => SignInView(),
+        '/home': (context) => MyHomePage(title: 'You did it!'),
+      },
     );
   }
 }

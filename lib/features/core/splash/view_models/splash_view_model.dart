@@ -6,8 +6,7 @@ class SplashViewModel extends ViewModel {
 
   late final session = createProperty<Session?>(null);
 
-  Future<void> _initialize() async {
-    // 1c. Initialiseer Supabase (kan ook in main() gedaan worden)
+  Future<void> initialize() async {
     await Supabase.initialize(
       url: 'https://rkxshluwonfyaviyvzyb.supabase.co',
       anonKey:

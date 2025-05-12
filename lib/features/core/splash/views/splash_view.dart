@@ -6,13 +6,17 @@ import 'package:supabase/supabase.dart';
 class SplashView extends ViewWidget<SplashViewModel> {
   SplashView({Key? key}) : super(key: key, builder: () => SplashViewModel());
 
+  void init() {
+    viewModel.initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Session?>(
       valueListenable: viewModel.session,
       builder: (context, session, _) {
         if (session == null) {
-          return const Center(child: CircularProgressIndicator());
+          return Scaffold(body: const Center(child: CircularProgressIndicator()));
         } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.of(context).pushReplacementNamed('/home');
