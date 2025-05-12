@@ -1,22 +1,6 @@
-import 'dart:developer';
-
-import 'package:budo_app/features/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
-  await Supabase.initialize(
-    url: 'https://rkxshluwonfyaviyvzyb.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJreHNobHV3b25meWF2aXl2enliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY0NDE2MzAsImV4cCI6MjA2MjAxNzYzMH0.gWM5YRLMZASobmAUMwAz5kfyDg5dxO1f-sOsvr1o6Cs',
-  );
-  AuthService authService = AuthService(supabaseClient: Supabase.instance.client);
-  final result = await authService.registerEmailAndPassword(
-    email: "taifrahim@pm.me",
-    password: "12345678!",
-  );
-
-  log("User with email:  ${result.user?.email} signed in successfully!");
   runApp(MyApp());
 }
 

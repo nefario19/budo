@@ -17,6 +17,7 @@ dependencies:
   freezed_annotation: ^3.0.0
   supabase_flutter: ^2.9.0
   loglytics: ^0.15.0
+  mvvm_plus: ^1.5.4
 
 dev_dependencies:
   flutter_test:
