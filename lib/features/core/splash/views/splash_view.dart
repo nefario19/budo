@@ -1,34 +1,25 @@
 import 'package:budo_app/features/core/splash/view_models/splash_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm_plus/mvvm_plus.dart';
+import 'package:supabase/supabase.dart';
 
-class SplashView extends StatefulWidget {
-  const SplashView({super.key});
-
-  @override
-  State<SplashView> createState() => _SplashViewState();
-}
-
-class _SplashViewState extends State<SplashView> {
-  final SplashViewModel model = SplashViewModel();
-  @override
-  void initState() async {
-    super.initState();
-    await model.initialize();
-    _redirect();
-  }
-
-  Future<void> _redirect() async {
-    await Future.delayed(Duration.zero); // Give the logic some time to be processed
-
-    if (!mounted) return;
-
-    if (model.session != null) {
-      Navigator.of(context).pushReplacementNamed('/home');
-    } // TODO: hier later een else toevoegen waar je heen moet gaan als de session null is (bijvoorbeeld login page)
-  }
+class SplashView extends ViewWidget<SplashViewModel> {
+  SplashView({Key? key}) : super(key: key, builder: () => SplashViewModel());
 
   @override
   Widget build(BuildContext context) {
-    return const CircularProgressIndicator();
+    return ValueListenableBuilder<Session?>(
+      valueListenable: viewModel.session,
+      builder: (context, session, _) {
+        if (session == null) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacementNamed('/home');
+          });
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }
