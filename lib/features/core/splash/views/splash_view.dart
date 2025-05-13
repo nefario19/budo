@@ -1,28 +1,30 @@
-import 'package:budo_app/features/core/splash/view_models/splash_view_model.dart';
+// lib/views/splash_view.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_command/flutter_command.dart';
 import 'package:mvvm_plus/mvvm_plus.dart';
 import 'package:supabase/supabase.dart';
 
-class SplashView extends ViewWidget<SplashViewModel> {
-  SplashView({Key? key}) : super(key: key, builder: () => SplashViewModel());
+import '../../repository/supabase_repository.dart';
+import '../view_models/splash_view_model.dart';
 
-  void init() {
-    viewModel.initialize();
-  }
+class SplashView extends ViewWidget<SplashViewModel> {
+  SplashView({super.key}) : super(builder: () => SplashViewModel(SupabaseRepository()));
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Session?>(
-      valueListenable: viewModel.session,
-      builder: (context, session, _) {
-        if (session == null) {
-          return Scaffold(body: const Center(child: CircularProgressIndicator()));
-        } else {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/home');
-          });
-          return const SizedBox.shrink();
-        }
+    return CommandBuilder<void, Session?>(
+      command: viewModel.initializeCommand,
+      whileExecuting: (BuildContext context, Session? lastValue, void param) {
+        return const Center(child: CircularProgressIndicator());
+      },
+      onData: (BuildContext context, Session? session, void param) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacementNamed(session != null ? '/home' : '/signIn');
+        });
+        return const SizedBox.shrink();
+      },
+      onError: (BuildContext context, Object error, Session? lastValue, void param) {
+        return Scaffold(body: Center(child: Text('Er is iets mis gegaan:\n$error')));
       },
     );
   }

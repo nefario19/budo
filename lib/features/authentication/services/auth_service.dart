@@ -2,19 +2,14 @@ import 'package:loglytics/loglytics.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService with Loglytics {
-  late final SupabaseClient _client;
+  AuthService(this._client);
+  final SupabaseClient _client;
   Session? _session;
+  Session? get session => _session;
   late final Stream<AuthState> _authSubscription;
 
   bool loading = false;
   String? userEmail;
-
-  void initialize() {
-    log.info('I am initializing');
-    _client = Supabase.instance.client;
-    _authSubscription = Supabase.instance.client.auth.onAuthStateChange;
-    log.info('I am done initializing');
-  }
 
   Future<void> signUpWithEmailAndPassword({required String email, required String password}) async {
     log.info('Signing up $email');
@@ -57,6 +52,10 @@ class AuthService with Loglytics {
     } on Exception {
       rethrow;
     }
+  }
+
+  Session? getSession() {
+    return _client.auth.currentSession;
   }
 
   bool isAuthenticated() => _session?.user != null;

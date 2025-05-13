@@ -2,8 +2,9 @@ import 'package:budo_app/features/authentication/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthViewModel {
-  final AuthService authService =
-      AuthService(); //Initialize this service in the splash screen and register in getit.
+  AuthViewModel(this._authService);
+  final AuthService _authService;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
   final _emailController = TextEditingController();
@@ -14,12 +15,12 @@ class AuthViewModel {
   final String password = '';
 
   void signIn({required String email, required String password}) async =>
-      await authService.signInWithEmailAndPassword(email: email, password: password);
+      await _authService.signInWithEmailAndPassword(email: email, password: password);
 
   void signUp({required String email, required String password}) async =>
-      await authService.signUpWithEmailAndPassword(email: email, password: password);
+      await _authService.signUpWithEmailAndPassword(email: email, password: password);
 
   void signOut() async {
-    await authService.signOut();
+    await _authService.signOut();
   }
 }
